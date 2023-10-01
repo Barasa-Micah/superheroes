@@ -4,6 +4,11 @@ from .models import hero, Power, HeroPower,db
 # The blueprint I create here will be used in defining the API routes 
 api= Blueprint('api', __name__)
 
+
+@api.route('/')
+def home():
+    return jsonify({'error':'Creating Superheroes'})
+
 # Implementing the GET route (heroes)
 @api.route('/heroes', methods=['GET'])
 def get_heroes():
