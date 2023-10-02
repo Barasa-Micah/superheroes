@@ -1,16 +1,16 @@
-from flask import Blueprint, jsonify, request
+from flask import Flask, jsonify, request
 from .models import hero, Power, HeroPower,db
 
 # The blueprint I create here will be used in defining the API routes 
-api= Blueprint('api', __name__)
+app=Flask( __name__)
 
 
-@api.route('/')
+@app.route('/')
 def home():
     return jsonify({'error':'Creating Superheroes'})
 
 # Implementing the GET route (heroes)
-@api.route('/heroes', methods=['GET'])
+@app.route('/heroes', methods=['GET'])
 def get_heroes():
     heroes = hero.query.all()
     return jsonify([hero.serialize() for hero in heroes])
@@ -18,7 +18,7 @@ def get_heroes():
 
 # Implementing the GET route again but now the id route
 
-@api.route('/herores/<int:id>', methods=['GET'])
+@app.route('/herores/<int:id>', methods=['GET'])
 def get_hero(id):
     hero= hero.query.get(id)
     if hero is None:
@@ -27,7 +27,7 @@ def get_hero(id):
 
 
 # Implementing PATCH with the id route
-@api.route('/heroes/<int:id>', methods=['PATCH'])
+@app.route('/heroes/<int:id>', methods=['PATCH'])
 def update_power(id):
     power= power.query.get(id)
     if power is None:
@@ -44,7 +44,7 @@ def update_power(id):
 
 # Implementing POST for the hero_powers route
 
-@api.route('/hero_powers', methods=['POST'])
+@app.route('/hero_powers', methods=['POST'])
 def create_hero_power():
     data=request.get_json()
     hero_id=data.get('hero_id')
